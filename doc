@@ -72,4 +72,13 @@ and then add this to the ansible-playbook command:
 
 Extremely Simple.
 
+#Dinamic Inventories
+
+To load hosts and groups from a script .. 
+add -i script.py
+
+script has to return:
+on --list -> json.dumps({"group" : {"hosts":[1.1.1.1,2.2.2.2],"vars":{"ansible_ssh_port":5222}}})
+on --host -> json.dumps({}) // or host specific variables.
+
 
