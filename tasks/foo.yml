@@ -23,6 +23,6 @@
   with_items:
     - "{{testvardemo['meta']['demo']}}"
 - debug:
-    msg: "{{testvardemo['meta']['demo']}}"
+    msg: "{{testvardemo}}"
 
 
