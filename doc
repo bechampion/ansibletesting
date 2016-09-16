@@ -1,0 +1,75 @@
+#Run playbooks
+ansible-playbook main.yml -i hosts -K (for sudo password)
+
+#facter
+ansible all -m setup
+
+#hiera
+use variables
+
+#get stdout
+register: varname
+and then use it as 
+{{varname.stdout}}
+
+#run it somewhere else
+delegate_to: 127.0.0.1
+
+#iterations:
+vars:
+	myvars: [1,2,3,4,5]
+task:
+	name: myloop
+	command: /bin/echo {{item}}
+	with_items:
+		- "1"
+		- "2"
+		- "{{myvars}}"
+
+#funny jinja maps
+command: /bin/echo {{motd}} {{item|map('upper')|join}}
+
+#debugging
+- debug:
+	msg: "hola que tal {{myvariable}}"
+
+
+#sudo
+become_user: root
+become_method: su
+
+#Variables
+they should be relative to the host group
+[group]
+127.1.1.1
+
+so they can go in a file under
+group_vars/virtual (no yaml required)
+and the content should be something like
+
+---
+variable: pepe
+
+#templates
+Super simple Task:
+
+ - name: "testing template" 
+      template:             
+        src: templates/demo.j2
+        dest: /tmp/pepinos
+
+and the jinja template looks like:
+
+Hola {{variable}} like normal jinja
+
+
+#vault encryption couldn't be more simple...
+ansible-vault encrypt group_vars/virtual
+to encrypt a variable file..
+
+and then add this to the ansible-playbook command:
+--ask-vault-ass 
+
+Extremely Simple.
+
+

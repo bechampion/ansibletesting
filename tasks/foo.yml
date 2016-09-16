@@ -1,0 +1,28 @@
+- name: "loop uname"
+  command: /bin/cat /tmp/dada
+  delegate_to: 127.0.0.1
+  register: kernel
+
+
+- name: "doing an ls"
+  command: /bin/ls
+
+- name: "echo test"
+  command: /bin/echo {{motd}} {{item|map('upper')|join}} {{kernel.rc}}
+  with_items:
+    - "{{myitems}}"
+  register: pepino
+
+
+- name: "jerry test"
+  jerry: 
+     testvar: "here ->> testvardemo"
+  register: testvardemo
+- name: "jerry loop"
+  command: /bin/echo {{item}}
+  with_items:
+    - "{{testvardemo['meta']['demo']}}"
+- debug:
+    msg: "{{testvardemo['meta']['demo']}}"
+
+
