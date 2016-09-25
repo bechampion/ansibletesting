@@ -73,12 +73,84 @@ and then add this to the ansible-playbook command:
 Extremely Simple.
 
 #Dinamic Inventories
-
 To load hosts and groups from a script .. 
 add -i script.py
 
 script has to return:
 on --list -> json.dumps({"group" : {"hosts":[1.1.1.1,2.2.2.2],"vars":{"ansible_ssh_port":5222}}})
 on --host -> json.dumps({}) // or host specific variables.
+
+
+#Debugging
+Something handy that this thing has from version 2.1
+adding "strategy:  debug" outside the task definition lands us on a debugging shell , in case we try to do something with a variable that
+doesn't exist we can do
+> p result 
+prints the exception
+
+> p task.args
+prints the arguments of the task as in 
+{u'_raw_params': u'echo {{wrong_var}}'}
+
+and we can do inline magic as in
+task.args['_raw_params'] = "echo 1"
+this changes the task completely
+
+>redo
+
+to re execute the playbook... interesting
+
+
+## important variables 
+When you do a loop within a task such as
+
+command: stat {{ item }} 
+with_items:
+    - "{{groups['all']}}" # BE SURE THERE is NO SPACE BETWEEN THE QUOTES AND THE {{
+
+
+# with_lines # it will apply the task to all the lines captured in the with_lines statement.
+- name: o"fake loop"
+  command: stat "/tmp/{{ item }}"
+  with_lines: ls /tmp
+
+
+#replacing multiple lines on a file
+- name: "replacing test"
+  lineinfile:
+    dest: /home/jegarcia/Projects/ansible2/testfile
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line}}"
+  with_items:
+    - { regexp: 'dog' ,  line: 'Dog' }
+    - { regexp: 'cat' ,  line: 'Cat' }
+#something interesting about loops
+So loops like with_items are a characteristic of the task itself and not of the task module (such as replace,lineinfile)
+this means that every task can be looped and it's attributes can be populated with {{ item.name }}
+
+for example
+tasks:
+- name: "demo task"
+  doingsomething:
+    val: "{{item.val}}"
+  with_items:
+    - { val: "pepe" } 
+
+if that makes sense.
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

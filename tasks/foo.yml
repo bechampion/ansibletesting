@@ -1,3 +1,12 @@
+- name: "dada"  
+  apt: name=htop state=installed 
+  when: ansible_os_family== "Debian"
+  become: yes
+  become_user: root
+  become_method: su
+  notify:
+    - restartsyslog
+
 - name: "loop uname"
   command: /bin/cat /tmp/dada
   delegate_to: 127.0.0.1
@@ -19,10 +28,36 @@
      testvar: "here ->> testvardemo"
   register: testvardemo
 - name: "jerry loop"
+  #command: /bin/echo {{item['a']}}
   command: /bin/echo {{item}}
   with_items:
-    - "{{testvardemo['meta']['demo']}}"
+    #- "{{testvardemo['meta']['demo'] | random }}"
+    #- "{{{'a':1,'a':2}}}"
+    - "{{[1,2,3,4,5,6,7,8,9]}}"
+
+  #when: item['a'] ==1
+  when: item %2 == 0 
 - debug:
     msg: "{{testvardemo}}"
+
+- name: "dada"  
+  yum: name=nginx state=installed 
+  when: ansible_os_family== "Centos"
+  become: yes
+  become_user: root
+  become_method: su
+- name: "replace coco"
+  replace:
+    dest: /tmp/dada
+    regexp: "^coco"
+    replace: "pepe"
+  register: regout
+- name: "testing template"
+  template: 
+    src: templates/demo.j2
+    dest: /tmp/pepinos
+#    - debug:
+#        msg: "{{regout}}"
+#         
 
 

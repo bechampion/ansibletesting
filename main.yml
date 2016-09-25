@@ -1,36 +1,10 @@
 ---
 - hosts: all
+  strategy: debug
   tasks:
+    - name: test debug
+      command: echo 1
     - include: tasks/foo.yml
-
-    - name: "dada"  
-      apt: name=htop state=installed 
-      when: ansible_os_family== "Debian"
-      become: yes
-      become_user: root
-      become_method: su
-      notify:
-        - restartsyslog
-
-    - name: "dada"  
-      yum: name=nginx state=installed 
-      when: ansible_os_family== "Centos"
-      become: yes
-      become_user: root
-      become_method: su
-    - name: "replace coco"
-      replace:
-        dest: /tmp/dada
-        regexp: "^coco"
-        replace: "pepe"
-      register: regout
-    - name: "testing template"
-      template: 
-        src: templates/demo.j2
-        dest: /tmp/pepinos
-#    - debug:
-#        msg: "{{regout}}"
-#         
   handlers:
     - name: restartsyslog
       become: yes
