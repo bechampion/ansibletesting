@@ -10,6 +10,7 @@ def main():
     fields = { "testvar": { "required"  : True , "type" : "str"  }}
     module = AnsibleModule(argument_spec=fields)
     response = gettemp()
+    response['someinfo'] = module.params
     module.exit_json(changed=True, out=response , test=1)
 
 

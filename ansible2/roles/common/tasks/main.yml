@@ -34,10 +34,12 @@
 
 - name: "testing library"
   jerry:
-    testvar: "pepe"
+    testvar: [1,2,3,4]
   register: tl
-- debug:
-    msg: "{{tl['out']['temp']}}"
+- name: "test lookup"
+    #msg: "{{tl['out']['temp']}}"
+  command: echo {{item}}
+  with_items: "{{tl['out']['someinfo']['testvar']}}"
 
 #- name: "test replce simple"
   #replace:
