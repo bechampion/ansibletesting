@@ -28,6 +28,17 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.line}}"
     state: present
+- name: "testing lambdas"
+  command: echo {{item}}
+  with_items: "{{ [1,2,3,4] | list }}"
+
+- name: "testing library"
+  jerry:
+    testvar: "pepe"
+  register: tl
+- debug:
+    msg: "{{tl['out']['temp']}}"
+
 #- name: "test replce simple"
   #replace:
     #dest: /home/jegarcia/Projects/ansible2/testfile
@@ -35,6 +46,7 @@
   #with_items:
     #- { reg: 'Dog,pepe' }
     #- { reg: 'Cat,pepe' }
+    #2
 
      
 #- debug:
@@ -56,4 +68,4 @@
         ##- " {{ hostvars[inventory_hostname] }} "
         ##- " {{ groups['all'] }} "
         ##- " {{ output }} "
-        #- " {{ groups['all'] }} "
+         #- " {{ groups['all'] }} "
