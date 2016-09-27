@@ -1,11 +1,5 @@
 - set_fact: 
     pepo: "jeronimo garcia"
-    register: pepo
-
-
-- debug: 
-    msg: "eoooo {{ pepo }}"
-
 
 - name: "common task following"
   command: echo {{ hostvars.keys() }} 
@@ -42,7 +36,7 @@
       
 - debug:
     #msg: "{{ pepe['results'] }}"
-    msg: "{{ hostvars }}"
+    msg: "{{ hostvars[inventory_hostname] }}"
 ##when: 
   ##- ct['rc'] == 0
   ##- " [ct['stdout'].rfind('h')] == map(lambda x: 0 if x == 0 else 1 , [0] )"
