@@ -1,12 +1,8 @@
 - set_fact: 
     pepo: "jeronimo garcia"
     register: pepo
-
-
 - debug: 
     msg: "eoooo {{ pepo }}"
-
-
 - name: "common task following"
   command: echo {{ hostvars.keys() }} 
   with_items: "{{ groups['all']}}"
@@ -14,7 +10,8 @@
 
 - name: "fake loop"
   command: echo {{ item }}
-  with_lines: grep jegarcia /etc/passwd   
+  with_lines: grep jeronimog /etc/passwd   
+  ignore_errors: True
 
 - name: "daddasda33a"
   command: echo {{pepe}}
@@ -24,10 +21,10 @@
   ignore_errors: True
   run_once: True
   with_items:
-    - { regexp: '^dog' ,  line: 'Fuck' }
+    - { regexp: '^dog' ,  line: 'Hi' }
     - { regexp: '^cat' ,  line: 'you' }
   lineinfile:
-    dest: /home/jegarcia/Projects/ansible/ansible2/testfile
+    dest: /home/jeronimog/Projects/ansible/ansible2/testfile
     regexp: "{{ item.regexp }}"
     line: "{{ item.line}}"
     state: present
@@ -39,10 +36,9 @@
     #- { reg: 'Dog,pepe' }
     #- { reg: 'Cat,pepe' }
 
-      
-- debug:
-    #msg: "{{ pepe['results'] }}"
-    msg: "{{ hostvars }}"
+     
+#- debug:
+    #msg: "{{ hostvars }}"
 ##when: 
   ##- ct['rc'] == 0
   ##- " [ct['stdout'].rfind('h')] == map(lambda x: 0 if x == 0 else 1 , [0] )"

@@ -1,4 +1,4 @@
 [virtual]
-139.59.175.131 ansible_ssh_port=5222
+localhost ansible_ssh_port=22
 
 
